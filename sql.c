@@ -30,11 +30,13 @@ sql_exec(sqlite3 *db, const char *fmt, ...)
 	char *errMsg = NULL;
 	char *sql;
 	va_list ap;
-	//DPRINTF(E_DEBUG, L_DB_SQL, "SQL: %s\n", sql);
 
 	va_start(ap, fmt);
 	sql = sqlite3_vmprintf(fmt, ap);
 	va_end(ap);
+
+	//DPRINTF(E_DEBUG, L_DB_SQL, "SQL: %s\n", sql);
+
 	ret = sqlite3_exec(db, sql, 0, 0, &errMsg);
 	if( ret != SQLITE_OK )
 	{
