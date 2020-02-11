@@ -53,7 +53,7 @@ strcatf(struct string_s *str, const char *fmt, ...)
 }
 static inline void strncpyt(char *dst, const char *src, size_t len)
 {
-	strncpy(dst, src, len);
+	strncpy(dst, src, len-1);
 	dst[len-1] = '\0';
 }
 static inline int is_reg(const struct dirent *d)
