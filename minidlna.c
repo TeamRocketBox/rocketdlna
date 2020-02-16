@@ -791,6 +791,9 @@ init(int argc, char **argv)
 				force_sort_criteria++;
 			}
 			break;
+		case DEFAULT_SORT_CRITERIA:
+			default_sort_criteria = ary_options[i].value;
+			break;
 		case MAX_CONNECTIONS:
 			runtime_vars.max_connections = atoi(ary_options[i].value);
 			break;

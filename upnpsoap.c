@@ -1320,6 +1320,7 @@ BrowseContentDirectory(struct upnphttp * h, const char * action)
 	struct NameValueParserData data;
 	int RequestedCount = 0;
 	int StartingIndex = 0;
+	char *default_sort_criteria_dup = NULL;
 
 	memset(&args, 0, sizeof(args));
 	memset(&str, 0, sizeof(str));
@@ -1386,6 +1387,9 @@ BrowseContentDirectory(struct upnphttp * h, const char * action)
 	                         " * SortCriteria: %s\n",
 				ObjectID, RequestedCount, StartingIndex,
 	                        BrowseFlag, Filter, SortCriteria);
+
+	if (!SortCriteria && default_sort_criteria)
+		SortCriteria = default_sort_criteria_dup = strdup(default_sort_criteria);
 
 	if( strcmp(BrowseFlag+6, "Metadata") == 0 )
 	{
@@ -1521,6 +1525,7 @@ browse_error:
 	ClearNameValueList(&data);
 	free(orderBy);
 	free(str.data);
+	free(default_sort_criteria_dup);
 }
 
 static inline void
