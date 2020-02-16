@@ -451,6 +451,7 @@ rescan:
 		open_db(&db);
 		if (*scanner_pid == 0) /* child (scanner) process */
 		{
+			open_db(&db);
 			start_scanner();
 			sqlite3_close(db);
 			log_close();
@@ -466,6 +467,7 @@ rescan:
 			SETFLAG(SCANNING_MASK);
 #else
 		start_scanner();
+		sqlite3_close(db);
 #endif
 	}
 }
