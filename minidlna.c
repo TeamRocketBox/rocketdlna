@@ -287,7 +287,7 @@ getfriendlyname(char *buf, int len)
 	fclose(info);
 #else
 	char * logname;
-	logname = getenv("LOGNAME");
+	logname = getenv("USER");
 #ifndef STATIC // Disable for static linking
 	if (!logname)
 	{
