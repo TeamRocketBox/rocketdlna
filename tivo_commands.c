@@ -213,7 +213,8 @@ callback(void *args, int argc, char **argv, char **azColName)
 			strcatf(str, "<AlbumTitle>%s</AlbumTitle>", tivo_unescape_tag(album));
 		}
 		if( genre ) {
-			strcatf(str, "<MusicGenre>%s</MusicGenre>", tivo_unescape_tag(genre));
+			genre = tivo_unescape_tag(genre);
+			strcatf(str, "<MusicGenre>%.*s</MusicGenre>", strcspn(genre, ">"), genre);
 		}
 		if( resolution ) {
 			char *width = strsep(&resolution, "x");

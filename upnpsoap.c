@@ -1053,7 +1053,10 @@ callback(void *args, int argc, char **argv, char **azColName)
 			ret = strcatf(str, "&lt;upnp:album&gt;%s&lt;/upnp:album&gt;", album);
 		}
 		if( genre && (passed_args->filter & FILTER_UPNP_GENRE) ) {
-			ret = strcatf(str, "&lt;upnp:genre&gt;%s&lt;/upnp:genre&gt;", genre);
+			for (const char *g = genre, *e; *g; g = e + !!*e) {
+				e = g + strcspn(g, ">");
+				ret = strcatf(str, "&lt;upnp:genre&gt;%.*s&lt;/upnp:genre&gt;", (int)(e - g), g);
+			}
 		}
 		if( strncmp(id, MUSIC_PLIST_ID, strlen(MUSIC_PLIST_ID)) == 0 ) {
 			track = strrchr(id, '$')+1;
@@ -1255,7 +1258,10 @@ callback(void *args, int argc, char **argv, char **azColName)
 			ret = strcatf(str, "&lt;dc:creator&gt;%s&lt;/dc:creator&gt;", creator);
 		}
 		if( genre && (passed_args->filter & FILTER_UPNP_GENRE) ) {
-			ret = strcatf(str, "&lt;upnp:genre&gt;%s&lt;/upnp:genre&gt;", genre);
+			for (const char *g = genre, *e; *g; g = e + !!*e) {
+				e = g + strcspn(g, ">");
+				ret = strcatf(str, "&lt;upnp:genre&gt;%.*s&lt;/upnp:genre&gt;", (int)(e - g), g);
+			}
 		}
 		if( artist && (passed_args->filter & FILTER_UPNP_ARTIST) ) {
 			ret = strcatf(str, "&lt;upnp:artist&gt;%s&lt;/upnp:artist&gt;", artist);

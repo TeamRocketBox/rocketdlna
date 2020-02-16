@@ -63,6 +63,11 @@ char *
 GetValueFromNameValueList(struct NameValueParserData * pdata,
                           const char * Name);
 
+char *
+GetNextMultiValueFromNameValueList(struct NameValueParserData * pdata,
+                                   const char * Name,
+                                   struct NameValue **context);
+
 /* GetValueFromNameValueListIgnoreNS() */
 char *
 GetValueFromNameValueListIgnoreNS(struct NameValueParserData * pdata,

@@ -114,6 +114,24 @@ GetValueFromNameValueList(struct NameValueParserData * pdata,
     return p;
 }
 
+char *
+GetNextMultiValueFromNameValueList(struct NameValueParserData * pdata,
+                                   const char * Name,
+                                   struct NameValue **context)
+{
+    struct NameValue * nv;
+    char * p = NULL;
+    for(nv = (*context == NULL) ? pdata->head.lh_first : *context;
+        (nv != NULL) && (p == NULL);
+        nv = nv->entries.le_next)
+    {
+        if(strcmp(nv->name, Name) == 0)
+            p = nv->value;
+    }
+    *context = nv;
+    return p;
+}
+
 /* debug all-in-one function 
  * do parsing then display to stdout */
 #ifdef DEBUG

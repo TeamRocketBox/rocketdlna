@@ -162,6 +162,7 @@ parse_nfo(const char *path, metadata_t *m)
 	FILE *nfo;
 	char *buf;
 	struct NameValueParserData xml;
+	struct NameValue *context = NULL;
 	struct stat file;
 	size_t nread;
 	char *val, *val2;
@@ -219,12 +220,18 @@ parse_nfo(const char *path, metadata_t *m)
 		free(esc_tag);
 	}
 
-	val = GetValueFromNameValueList(&xml, "genre");
-	if (val)
+	while ((val = GetNextMultiValueFromNameValueList(&xml, "genre", &context)))
 	{
-		char *esc_tag = unescape_tag(val, 1);
+		char *esc_tag, *genre;
+		esc_tag = unescape_tag(val, 1);
+		val2 = escape_tag(esc_tag, 1);
+		if (m->genre)
+			xasprintf(&genre, "%s>%s", val2, m->genre);
+		else
+			genre = strdup(val2);
 		free(m->genre);
-		m->genre = escape_tag(esc_tag, 1);
+		m->genre = genre;
+		free(val2);
 		free(esc_tag);
 	}
 

@@ -362,8 +362,41 @@ insert_containers(const char *name, const char *path, const char *refID, const c
 	}
 	else if( strstr(class, "videoItem") )
 	{
+		snprintf(sql, sizeof(sql), "SELECT GENRE from DETAILS where ID = %lld", (long long)detailID);
+		ret = sql_get_table(db, sql, &result, &row, &cols);
+		if( ret != SQLITE_OK )
+			return;
+		if( !row )
+		{
+			sqlite3_free_table(result);
+			return;
+		}
+		char *genre = result[1];
 		static long long last_all_objectID = 0;
+		static struct virtual_item last_genre;
 
+		if( genre )
+		{
+			for (char *g = genre; (genre = strtok(g, ">")); g = NULL)
+			{
+				if( !valid_cache || strcmp(genre, last_genre.name) != 0 )
+				{
+					insert_container(genre, VIDEO_GENRE_ID, NULL, "genre.videoGenre", NULL, NULL, NULL, &objectID, &parentID);
+					sprintf(last_genre.parentID, VIDEO_GENRE_ID"$%llX", (long long)parentID);
+					strncpyt(last_genre.name, genre, sizeof(last_genre.name));
+					last_genre.objectID = objectID;
+				}
+				else
+				{
+					last_genre.objectID++;
+				}
+				sql_exec(db, "INSERT into OBJECTS"
+				             " (OBJECT_ID, PARENT_ID, REF_ID, CLASS, DETAIL_ID, NAME) "
+				             "VALUES"
+				             " ('%s$%llX', '%s', '%s', '%s', %lld, %Q)",
+				             last_genre.parentID, last_genre.objectID, last_genre.parentID, refID, class, (long long)detailID, name);
+			}
+		}
 		/* All Videos */
 		if( !last_all_objectID )
 		{
@@ -541,6 +574,7 @@ CreateDatabase(void)
 
 	                        VIDEO_ID, "0", _("Video"),
 	                    VIDEO_ALL_ID, VIDEO_ID, _("All Video"),
+	                  VIDEO_GENRE_ID, VIDEO_ID, _("Genre"),
 	                    VIDEO_DIR_ID, VIDEO_ID, _("Folders"),
 
 	                        IMAGE_ID, "0", _("Pictures"),
