@@ -313,6 +313,42 @@ _get_dbtime(void)
 }
 
 static int
+strnatcmp(void *unused, int alen, const void *a, int blen, const void *b)
+{
+	const char *astr = a;
+	const char *bstr = b;
+	int len;
+	int result;
+
+	// TODO: Skip multiple prefixes?
+	for (const char *prefix = sort_ignore_prefixes; prefix && *prefix; prefix += len + 1)
+	{
+		len = strlen(prefix);
+
+		if (astr == a && alen > len && memcmp(a, prefix, len) == 0 && isspace(astr[len]))
+		{
+			astr += len + 1;
+			alen -= len + 1;
+		}
+
+		if (bstr == b && blen > len && memcmp(b, prefix, len) == 0 && isspace(bstr[len]))
+		{
+			bstr += len + 1;
+			blen -= len + 1;
+		}
+	}
+
+	len = (alen < blen) ? alen : blen;
+
+	// TODO: Detect numbers (and roman numerals?) and sort appropriately
+	result = sqlite3_strnicmp(astr, bstr, len);
+	if (result == 0)
+		result = alen - blen;
+
+	return result;
+}
+
+static int
 open_db(sqlite3 **sq3)
 {
 	char path[PATH_MAX];
@@ -333,6 +369,7 @@ open_db(sqlite3 **sq3)
 	sql_exec(db, "pragma journal_mode = OFF");
 	sql_exec(db, "pragma synchronous = OFF;");
 	sql_exec(db, "pragma default_cache_size = 8192;");
+	sqlite3_create_collation(db, "NATURALSORT", SQLITE_UTF8, NULL, strnatcmp);
 
 	return new_db;
 }
@@ -812,6 +849,15 @@ init(int argc, char **argv)
 		case ENABLE_SUBTITLES:
 			if (!strtobool(ary_options[i].value))
 				CLEARFLAG(SUBTITLES_MASK);
+			break;
+		case SORT_IGNORE_PREFIXES:
+			free(sort_ignore_prefixes);
+			sort_ignore_prefixes = calloc(1, strlen(ary_options[i].value) + 2);
+			strcpy(sort_ignore_prefixes, ary_options[i].value);
+			for (string = sort_ignore_prefixes; (word = strtok(string, ",")); string = NULL)
+			{
+				// Do nothing
+			}
 			break;
 		default:
 			DPRINTF(E_ERROR, L_GENERAL, "Unknown option in file %s\n",

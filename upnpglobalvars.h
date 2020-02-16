@@ -66,7 +66,7 @@
 #endif
 
 #define USE_FORK 1
-#define DB_VERSION 11
+#define DB_VERSION 12
 
 #ifdef READYNAS
 # define LOGFILE_NAME "upnp-av.log"
@@ -244,5 +244,6 @@ extern volatile short int quitting;
 extern volatile uint32_t updateID;
 extern const char *force_sort_criteria;
 extern const char *default_sort_criteria;
+extern const char *sort_ignore_prefixes;
 
 #endif

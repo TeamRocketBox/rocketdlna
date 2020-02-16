@@ -69,6 +69,7 @@ static const struct {
 	{ WIDE_LINKS, "wide_links" },
 	{ TIVO_DISCOVERY, "tivo_discovery" },
 	{ ENABLE_SUBTITLES, "enable_subtitles" },
+	{ SORT_IGNORE_PREFIXES, "sort_ignore_prefixes" },
 };
 
 int

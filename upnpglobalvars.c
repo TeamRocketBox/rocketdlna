@@ -89,3 +89,4 @@ volatile short int quitting = 0;
 volatile uint32_t updateID = 0;
 const char *force_sort_criteria = NULL;
 const char *default_sort_criteria = NULL;
+const char *sort_ignore_prefixes = NULL;
