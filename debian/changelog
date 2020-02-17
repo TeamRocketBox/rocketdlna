@@ -1,6 +1,15 @@
+minidlna (1.2.1+dfsg-3) unstable; urgency=medium
+
+  * Add Cling client detection requiring FLAG_MS_PFS
+
+ -- Jonathan Kolb <kolbyjack@gmail.com>  Sun, 16 Feb 2020 20:43:12 -0500
+
 minidlna (1.2.1+dfsg-2) unstable; urgency=medium
 
-  * Add local patches
+  * Add multiple genre support
+  * Enable video genre folder
+  * Add option to ignore prefixes when sorting text fields
+  * Add default sort criteria for cases where none is given
 
  -- Jonathan Kolb <kolbyjack@gmail.com>  Sun, 16 Feb 2020 13:32:26 -0500
 
