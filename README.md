@@ -33,3 +33,12 @@ and http://www.dlna.org/ for mode details on DLNA.
 - libsqlite3
 - libavformat (the ffmpeg libraries)
 
+## Goals
+
+Due to the fact I am a fan of CMake and C++ this project will somehow be transferred to CMake and C++ in the future.
+
+- Add CMake support
+- Rename the daemon from minidlna to rocketdlan
+- Modernize the code with the help of C++17
+
+-
