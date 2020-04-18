@@ -33,6 +33,17 @@ and http://www.dlna.org/ for mode details on DLNA.
 - libsqlite3
 - libavformat (the ffmpeg libraries)
 
+Installation of dependencies
+
+```
+sudo apt-get install \
+    libid3tag0-dev \
+    libvorbis-dev \
+    libflac-dev \
+    libflac++-dev \
+    libavahi-client-dev
+```
+
 ## Goals
 
 Due to the fact I am a fan of CMake and C++ this project will somehow be transferred to CMake and C++ in the future.
