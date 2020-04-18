@@ -5,7 +5,6 @@ Makefile
 aclocal.m4
 autom4te.cache/
 config.guess
-config.h.in
 config.rpath
 config.sub
 config.status

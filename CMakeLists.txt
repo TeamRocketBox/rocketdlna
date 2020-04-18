@@ -9,6 +9,21 @@ project(rocketdlna VERSION 0.0.1 LANGUAGES CXX C )
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/modules")
 
+# Variable definitions
+set(TIVO_SUPPORT_ENABLED OFF  CACHE BOOL "TiVo Support")
+set(ROOTDEV_MANUFACTURER_NAME "The Rocket Box Team" CACHE STRING "Manufacturer name")
+set(ROOTDEV_MODELNAME "Windows Media Connect compatible (RocketDLNA)" CACHE STRING "The Model name")
+set(ROOTDEV_MANUFACTURER_URL "http://github.com/TheTeamRocketBox" CACHE STRING "Manufacturer URL")
+set(ROOTDEV_MODELURL "http://github.com/TheTeamRocketBox" CACHE STRING "Model URL")
+set(ROOTDEV_MODELDESCRIPTION "RocketDLNA on ${CMAKE_SYSTEM_NAME}" CACHE STRING "The Model description")
+set(ROCKETDLNA_DEFAULT_DB_PATH "/var/cache/rocketdlna"  CACHE STRING "Default path for the database" )
+set(ROCKETDLNA_DEFAULT_LOG_PATH "/var/log" CACHE STRING "Default path for the log files")
+
+
+add_subdirectory(src)
+# Add support for the config header
+include_directories("${CMAKE_CURRENT_BINARY_DIR}/src")
+
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
